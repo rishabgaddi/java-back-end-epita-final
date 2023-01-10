@@ -1,16 +1,40 @@
 package fr.epita.datamodel;
 
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
+@Entity
+@Table(name = "MOVIES")
 public class Movie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    private Long id;
+    @Column
     private String title;
+    @Column
     private Date added;
+    @Column
     private String externalId;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "movie_id", unique = true)
+    private Set<SeenMovie> seenMovies;
 
-    public Movie(String title, Date added, String externalId) {
+    public Movie(Long id, String title, Date added, String externalId, Set<SeenMovie> seenMovies) {
+        this.id = id;
         this.title = title;
         this.added = added;
         this.externalId = externalId;
+        this.seenMovies = seenMovies;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -37,12 +61,22 @@ public class Movie {
         this.externalId = externalId;
     }
 
+    public Set<SeenMovie> getSeenMovies() {
+        return seenMovies;
+    }
+
+    public void setSeenMovies(Set<SeenMovie> seenMovies) {
+        this.seenMovies = seenMovies;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", added=" + added +
                 ", externalId='" + externalId + '\'' +
+                ", seenMovies=" + seenMovies +
                 '}';
     }
 }

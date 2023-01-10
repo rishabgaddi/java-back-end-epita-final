@@ -1,12 +1,36 @@
 package fr.epita.datamodel;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "SEEN_MOVIES")
 public class SeenMovie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
     private Date date;
+    @ManyToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "movie_id", unique = true)
+    private Movie movie;
 
-    public SeenMovie(Date date) {
+    public SeenMovie(Long id, Date date, User user, Movie movie) {
+        this.id = id;
         this.date = date;
+        this.user = user;
+        this.movie = movie;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getDate() {
@@ -17,10 +41,29 @@ public class SeenMovie {
         this.date = date;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
     @Override
     public String toString() {
         return "SeenMovie{" +
-                "date=" + date +
+                "id=" + id +
+                ", date=" + date +
+                ", user=" + user +
+                ", movie=" + movie +
                 '}';
     }
 }
