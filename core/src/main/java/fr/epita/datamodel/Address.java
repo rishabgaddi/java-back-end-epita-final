@@ -32,6 +32,8 @@ public class Address {
         this.contact = contact;
     }
 
+    public Address() {}
+
     public Long getId() {
         return id;
     }

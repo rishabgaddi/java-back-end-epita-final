@@ -15,7 +15,7 @@ public class Contact {
     private Long id;
     @Column
     private String name;
-    @Column
+    @Column(unique = true)
     private String email;
     @Column
     private String gender;
@@ -37,6 +37,8 @@ public class Contact {
         this.addresses = addresses;
         this.user = user;
     }
+
+    public Contact() {}
 
     public Long getId() {
         return id;

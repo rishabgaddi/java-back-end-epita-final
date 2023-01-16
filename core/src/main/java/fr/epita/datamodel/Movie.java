@@ -15,7 +15,7 @@ public class Movie {
     private String title;
     @Column
     private Date added;
-    @Column
+    @Column(unique = true)
     private String externalId;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id", unique = true)
@@ -28,6 +28,8 @@ public class Movie {
         this.externalId = externalId;
         this.seenMovies = seenMovies;
     }
+
+    public Movie() {}
 
     public Long getId() {
         return id;

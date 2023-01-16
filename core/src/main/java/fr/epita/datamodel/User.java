@@ -28,6 +28,8 @@ public class User {
         this.contact = contact;
     }
 
+    public User() {}
+
     public String getUsername() {
         return username;
     }

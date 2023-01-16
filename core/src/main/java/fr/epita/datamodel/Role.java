@@ -8,15 +8,29 @@ import java.util.Set;
 @Entity
 @Table(name = "ROLES")
 public class Role {
-    @Id
-    @Column
+    @Id@Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(unique = true)
     private String name;
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    public Role(String name, Set<User> users) {
+    public Role(Long id, String name, Set<User> users) {
+        this.id = id;
         this.name = name;
         this.users = users;
+    }
+
+    public Role() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -38,7 +52,8 @@ public class Role {
     @Override
     public String toString() {
         return "Role{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", users=" + users +
                 '}';
     }
