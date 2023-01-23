@@ -1,11 +1,13 @@
 package fr.epita.services;
 
 import fr.epita.datamodel.SeenMovie;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class SeenMovieJPADAO {
+public class SeenMovieJPADAO implements IJPADAO<SeenMovie> {
     private final SessionFactory sessionFactory;
 
     public SeenMovieJPADAO(SessionFactory sessionFactory) {
@@ -13,22 +15,40 @@ public class SeenMovieJPADAO {
     }
 
     public void save(SeenMovie seenMovie) {
-        sessionFactory.getCurrentSession().save(seenMovie);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(seenMovie);
+        transaction.commit();
+        session.close();
     }
 
     public void update(SeenMovie seenMovie) {
-        sessionFactory.getCurrentSession().update(seenMovie);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(seenMovie);
+        transaction.commit();
+        session.close();
     }
 
     public SeenMovie findById(Long id) {
-        return sessionFactory.getCurrentSession().find(SeenMovie.class, id);
+        Session session = this.sessionFactory.openSession();
+        SeenMovie seenMovie = session.find(SeenMovie.class, id);
+        session.close();
+        return seenMovie;
     }
 
     public List<SeenMovie> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from SeenMovie", SeenMovie.class).list();
+        Session session = this.sessionFactory.openSession();
+        List<SeenMovie> seenMovieList = session.createQuery("from SeenMovie", SeenMovie.class).getResultList();
+        session.close();
+        return seenMovieList;
     }
 
     public void delete(SeenMovie seenMovie) {
-        sessionFactory.getCurrentSession().delete(seenMovie);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(seenMovie);
+        transaction.commit();
+        session.close();
     }
 }

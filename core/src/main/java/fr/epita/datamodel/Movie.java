@@ -17,16 +17,16 @@ public class Movie {
     private Date added;
     @Column(unique = true)
     private String externalId;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "movie_id", unique = true)
-    private Set<SeenMovie> seenMovies;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "movie_id", unique = true)
+//    private Set<SeenMovie> seenMovies;
 
-    public Movie(Long id, String title, Date added, String externalId, Set<SeenMovie> seenMovies) {
+    public Movie(Long id, String title, Date added, String externalId) {
         this.id = id;
         this.title = title;
         this.added = added;
         this.externalId = externalId;
-        this.seenMovies = seenMovies;
+//        this.seenMovies = seenMovies;
     }
 
     public Movie() {}
@@ -63,13 +63,13 @@ public class Movie {
         this.externalId = externalId;
     }
 
-    public Set<SeenMovie> getSeenMovies() {
-        return seenMovies;
-    }
-
-    public void setSeenMovies(Set<SeenMovie> seenMovies) {
-        this.seenMovies = seenMovies;
-    }
+//    public Set<SeenMovie> getSeenMovies() {
+//        return seenMovies;
+//    }
+//
+//    public void setSeenMovies(Set<SeenMovie> seenMovies) {
+//        this.seenMovies = seenMovies;
+//    }
 
     @Override
     public String toString() {
@@ -78,7 +78,7 @@ public class Movie {
                 ", title='" + title + '\'' +
                 ", added=" + added +
                 ", externalId='" + externalId + '\'' +
-                ", seenMovies=" + seenMovies +
+//                ", seenMovies=" + seenMovies +
                 '}';
     }
 }

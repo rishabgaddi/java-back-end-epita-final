@@ -8,10 +8,14 @@ import java.util.Set;
 @Table(name = "USERS")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(unique = true)
     private String username;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true)
-    private Set<SeenMovie> seenMovies;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", unique = true)
+//    private Set<SeenMovie> seenMovies;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -21,14 +25,23 @@ public class User {
     @JoinColumn(name = "user_id", unique = true)
     private Contact contact;
 
-    public User(String username, Set<SeenMovie> seenMovies, Set<Role> roles, Contact contact) {
+    public User(Long id, String username, Set<Role> roles, Contact contact) {
+        this.id = id;
         this.username = username;
-        this.seenMovies = seenMovies;
+//        this.seenMovies = seenMovies;
         this.roles = roles;
         this.contact = contact;
     }
 
     public User() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -38,13 +51,13 @@ public class User {
         this.username = username;
     }
 
-    public Set<SeenMovie> getSeenMovies() {
-        return seenMovies;
-    }
-
-    public void setSeenMovies(Set<SeenMovie> seenMovies) {
-        this.seenMovies = seenMovies;
-    }
+//    public Set<SeenMovie> getSeenMovies() {
+//        return seenMovies;
+//    }
+//
+//    public void setSeenMovies(Set<SeenMovie> seenMovies) {
+//        this.seenMovies = seenMovies;
+//    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -65,8 +78,9 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
-                ", seenMovies=" + seenMovies +
+                "id=" + id +
+                ", username='" + username + '\'' +
+//                ", seenMovies=" + seenMovies +
                 ", roles=" + roles +
                 ", contact=" + contact +
                 '}';

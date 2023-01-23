@@ -22,20 +22,20 @@ public class Contact {
     @Column
     private Date birthDate;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id", unique = true)
+    @JoinColumn(name = "contact_id")
     private Set<Address> addresses = new HashSet<>(2);
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true)
-    private User user;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", unique = true)
+//    private User user;
 
-    public Contact(Long id, String name, String email, String gender, Date birthDate, Set<Address> addresses, User user) {
+    public Contact(Long id, String name, String email, String gender, Date birthDate, Set<Address> addresses) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
         this.addresses = addresses;
-        this.user = user;
+//        this.user = user;
     }
 
     public Contact() {}
@@ -88,13 +88,13 @@ public class Contact {
         this.addresses = addresses;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     @Override
     public String toString() {
@@ -105,7 +105,7 @@ public class Contact {
                 ", gender='" + gender + '\'' +
                 ", birthDate=" + birthDate +
                 ", addresses=" + addresses +
-                ", user=" + user +
+//                ", user=" + user +
                 '}';
     }
 }

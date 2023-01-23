@@ -18,18 +18,18 @@ public class Address {
     private String street;
     @Column
     private String number;
-    @ManyToOne
-    @JoinColumn(name = "contact_id", unique = true)
-    private Contact contact;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "contact_id", unique = true)
+//    private Contact contact;
 
-    public Address(Long id, String country, String area, String city, String street, String number, Contact contact) {
+    public Address(Long id, String country, String area, String city, String street, String number) {
         this.id = id;
         this.country = country;
         this.area = area;
         this.city = city;
         this.street = street;
         this.number = number;
-        this.contact = contact;
+//        this.contact = contact;
     }
 
     public Address() {}
@@ -82,13 +82,13 @@ public class Address {
         this.number = number;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
+//    public Contact getContact() {
+//        return contact;
+//    }
+//
+//    public void setContact(Contact contact) {
+//        this.contact = contact;
+//    }
 
     @Override
     public String toString() {
@@ -99,7 +99,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
                 ", number='" + number + '\'' +
-                ", contact=" + contact +
+//                ", contact=" + contact +
                 '}';
     }
 }

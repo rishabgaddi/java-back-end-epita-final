@@ -11,10 +11,10 @@ public class SeenMovie {
     private Long id;
     @Column
     private Date date;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id", unique = true)
     private Movie movie;
 

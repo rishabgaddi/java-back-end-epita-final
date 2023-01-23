@@ -1,11 +1,13 @@
 package fr.epita.services;
 
 import fr.epita.datamodel.Address;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class AddressJPADAO {
+public class AddressJPADAO implements IJPADAO<Address> {
     private final SessionFactory sessionFactory;
 
     public AddressJPADAO(SessionFactory sessionFactory) {
@@ -13,22 +15,40 @@ public class AddressJPADAO {
     }
 
     public void save(Address address) {
-        sessionFactory.getCurrentSession().save(address);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(address);
+        transaction.commit();
+        session.close();
     }
 
     public void update(Address address) {
-        sessionFactory.getCurrentSession().update(address);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(address);
+        transaction.commit();
+        session.close();
     }
 
     public Address findById(Long id) {
-        return sessionFactory.getCurrentSession().find(Address.class, id);
+        Session session = this.sessionFactory.openSession();
+        Address address = session.find(Address.class, id);
+        session.close();
+        return address;
     }
 
     public List<Address> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from Address", Address.class).list();
+        Session session = this.sessionFactory.openSession();
+        List<Address> addressList = session.createQuery("from Address", Address.class).getResultList();
+        session.close();
+        return addressList;
     }
 
     public void delete(Address address) {
-        sessionFactory.getCurrentSession().delete(address);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(address);
+        transaction.commit();
+        session.close();
     }
 }

@@ -1,11 +1,13 @@
 package fr.epita.services;
 
 import fr.epita.datamodel.User;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class UserJPADAO {
+public class UserJPADAO implements IJPADAO<User> {
     private final SessionFactory sessionFactory;
 
     public UserJPADAO(SessionFactory sessionFactory) {
@@ -13,22 +15,40 @@ public class UserJPADAO {
     }
 
     public void save(User user) {
-        sessionFactory.getCurrentSession().save(user);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(user);
+        transaction.commit();
+        session.close();
     }
 
     public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(user);
+        transaction.commit();
+        session.close();
     }
 
     public User findById(Long id) {
-        return sessionFactory.getCurrentSession().find(User.class, id);
+        Session session = this.sessionFactory.openSession();
+        User user = session.find(User.class, id);
+        session.close();
+        return user;
     }
 
     public List<User> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from User", User.class).list();
+        Session session = this.sessionFactory.openSession();
+        List<User> userList = session.createQuery("from User", User.class).getResultList();
+        session.close();
+        return userList;
     }
 
     public void delete(User user) {
-        sessionFactory.getCurrentSession().delete(user);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(user);
+        transaction.commit();
+        session.close();
     }
 }
