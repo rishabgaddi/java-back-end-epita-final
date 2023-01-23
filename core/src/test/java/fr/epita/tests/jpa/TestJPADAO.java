@@ -26,7 +26,7 @@ public class TestJPADAO {
 
     @Inject
     @Named("role-jpadao")
-    RoleJPADAO roleJPADAO;
+    IRoleDAO roleJPADAO;
 
     @Inject
     @Named("address-jpadao")

@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class ContactJPADAO implements IJPADAO<Contact> {
+public class ContactJPADAO implements IDAO<Contact> {
     private final SessionFactory sessionFactory;
 
     public ContactJPADAO(SessionFactory sessionFactory) {

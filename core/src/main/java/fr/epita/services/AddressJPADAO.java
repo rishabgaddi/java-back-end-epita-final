@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class AddressJPADAO implements IJPADAO<Address> {
+public class AddressJPADAO implements IDAO<Address> {
     private final SessionFactory sessionFactory;
 
     public AddressJPADAO(SessionFactory sessionFactory) {

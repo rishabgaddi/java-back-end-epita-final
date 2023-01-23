@@ -7,7 +7,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class MovieJPADAO implements IJPADAO<Movie> {
+public class MovieJPADAO implements IDAO<Movie> {
     private final SessionFactory sessionFactory;
 
     public MovieJPADAO(SessionFactory sessionFactory) {

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class RoleJPADAO implements IJPADAO<Role> {
+public class RoleJPADAO implements IRoleDAO {
     private final SessionFactory sessionFactory;
 
     public RoleJPADAO(SessionFactory sessionFactory) {
