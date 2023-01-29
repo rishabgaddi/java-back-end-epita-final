@@ -1,8 +1,6 @@
 package fr.epita.datamodel;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
@@ -10,30 +8,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column(unique = true)
     private String username;
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", unique = true)
-//    private Set<SeenMovie> seenMovies;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", unique = true)
+    private Role role;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true)
+    @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    public User(Long id, String username, Set<Role> roles, Contact contact) {
+    public User(Long id, String username, Role role, Contact contact) {
         this.id = id;
         this.username = username;
-//        this.seenMovies = seenMovies;
-        this.roles = roles;
+        this.role = role;
         this.contact = contact;
     }
 
-    public User() {}
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -51,20 +43,12 @@ public class User {
         this.username = username;
     }
 
-//    public Set<SeenMovie> getSeenMovies() {
-//        return seenMovies;
-//    }
-//
-//    public void setSeenMovies(Set<SeenMovie> seenMovies) {
-//        this.seenMovies = seenMovies;
-//    }
-
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Contact getContact() {
@@ -80,8 +64,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-//                ", seenMovies=" + seenMovies +
-                ", roles=" + roles +
+                ", roles=" + role +
                 ", contact=" + contact +
                 '}';
     }

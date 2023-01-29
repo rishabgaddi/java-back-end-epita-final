@@ -3,7 +3,6 @@ package fr.epita.services;
 import fr.epita.datamodel.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,51 +18,42 @@ public class RoleJPADAO implements IRoleDAO {
 
     @Transactional
     public void save(Role role) {
-//        Session session = this.sessionFactory.openSession();
-//        Transaction transaction = session.beginTransaction();
-//        session.save(role);
-//        transaction.commit();
-//        session.close();
         Session session = this.sessionFactory.getCurrentSession();
         session.save(role);
     }
 
+    @Transactional
     public void update(Role role) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.update(role);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public Role findById(Long id) {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         Role role = session.find(Role.class, id);
-        session.close();
         return role;
     }
 
+    @Transactional
     public Role findByName(String name) {
-        Session session = this.sessionFactory.openSession();
-        Role role = session.createQuery("from Role where name = :name", Role.class)
+        Session session = this.sessionFactory.getCurrentSession();
+        Role role = session.createQuery("from Role r where r.name = :name", Role.class)
                 .setParameter("name", name)
                 .getSingleResult();
-        session.close();
         return role;
     }
 
+    @Transactional
     public List<Role> findAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         List<Role> roleList = session.createQuery("from Role", Role.class).getResultList();
-        session.close();
         return roleList;
     }
 
+    @Transactional
     public void delete(Role role) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.delete(role);
-        transaction.commit();
-        session.close();
     }
 }

@@ -3,10 +3,12 @@ package fr.epita.services;
 import fr.epita.datamodel.SeenMovie;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class SeenMovieJPADAO implements IDAO<SeenMovie> {
     private final SessionFactory sessionFactory;
 
@@ -14,41 +16,35 @@ public class SeenMovieJPADAO implements IDAO<SeenMovie> {
         this.sessionFactory = sessionFactory;
     }
 
+    @Transactional
     public void save(SeenMovie seenMovie) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.save(seenMovie);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public void update(SeenMovie seenMovie) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.update(seenMovie);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public SeenMovie findById(Long id) {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         SeenMovie seenMovie = session.find(SeenMovie.class, id);
-        session.close();
         return seenMovie;
     }
 
+    @Transactional
     public List<SeenMovie> findAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         List<SeenMovie> seenMovieList = session.createQuery("from SeenMovie", SeenMovie.class).getResultList();
-        session.close();
         return seenMovieList;
     }
 
+    @Transactional
     public void delete(SeenMovie seenMovie) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.delete(seenMovie);
-        transaction.commit();
-        session.close();
     }
 }

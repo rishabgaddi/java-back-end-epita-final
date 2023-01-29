@@ -18,21 +18,21 @@ public class Address {
     private String street;
     @Column
     private String number;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "contact_id", unique = true)
-//    private Contact contact;
+    @Column
+    private boolean isPrimary;
 
-    public Address(Long id, String country, String area, String city, String street, String number) {
+    public Address(Long id, String country, String area, String city, String street, String number, boolean isPrimary) {
         this.id = id;
         this.country = country;
         this.area = area;
         this.city = city;
         this.street = street;
         this.number = number;
-//        this.contact = contact;
+        this.isPrimary = isPrimary;
     }
 
-    public Address() {}
+    public Address() {
+    }
 
     public Long getId() {
         return id;
@@ -82,13 +82,13 @@ public class Address {
         this.number = number;
     }
 
-//    public Contact getContact() {
-//        return contact;
-//    }
-//
-//    public void setContact(Contact contact) {
-//        this.contact = contact;
-//    }
+    public boolean isPrimary() {
+        return isPrimary;
+    }
+
+    public void setPrimary(boolean primary) {
+        isPrimary = primary;
+    }
 
     @Override
     public String toString() {
@@ -99,7 +99,7 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
                 ", number='" + number + '\'' +
-//                ", contact=" + contact +
+                ", isPrimary=" + isPrimary +
                 '}';
     }
 }

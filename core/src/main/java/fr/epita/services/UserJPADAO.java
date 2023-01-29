@@ -3,10 +3,12 @@ package fr.epita.services;
 import fr.epita.datamodel.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class UserJPADAO implements IDAO<User> {
     private final SessionFactory sessionFactory;
 
@@ -14,41 +16,35 @@ public class UserJPADAO implements IDAO<User> {
         this.sessionFactory = sessionFactory;
     }
 
+    @Transactional
     public void save(User user) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.save(user);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public void update(User user) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.update(user);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public User findById(Long id) {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         User user = session.find(User.class, id);
-        session.close();
         return user;
     }
 
+    @Transactional
     public List<User> findAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         List<User> userList = session.createQuery("from User", User.class).getResultList();
-        session.close();
         return userList;
     }
 
+    @Transactional
     public void delete(User user) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.delete(user);
-        transaction.commit();
-        session.close();
     }
 }

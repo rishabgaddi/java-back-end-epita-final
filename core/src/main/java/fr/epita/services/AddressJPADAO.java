@@ -3,10 +3,12 @@ package fr.epita.services;
 import fr.epita.datamodel.Address;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class AddressJPADAO implements IDAO<Address> {
     private final SessionFactory sessionFactory;
 
@@ -14,41 +16,35 @@ public class AddressJPADAO implements IDAO<Address> {
         this.sessionFactory = sessionFactory;
     }
 
+    @Transactional
     public void save(Address address) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.save(address);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public void update(Address address) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.update(address);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public Address findById(Long id) {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         Address address = session.find(Address.class, id);
-        session.close();
         return address;
     }
 
+    @Transactional
     public List<Address> findAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         List<Address> addressList = session.createQuery("from Address", Address.class).getResultList();
-        session.close();
         return addressList;
     }
 
+    @Transactional
     public void delete(Address address) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.delete(address);
-        transaction.commit();
-        session.close();
     }
 }

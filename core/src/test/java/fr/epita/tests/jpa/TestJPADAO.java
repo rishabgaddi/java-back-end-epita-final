@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = JPATestContextConfiguration.class)
@@ -30,33 +29,32 @@ public class TestJPADAO {
 
     @Inject
     @Named("address-jpadao")
-    AddressJPADAO addressJPADAO;
+    IDAO addressJPADAO;
 
     @Inject
     @Named("movie-jpadao")
-    MovieJPADAO movieJPADAO;
+    IDAO movieJPADAO;
 
     @Inject
     @Named("contact-jpadao")
-    ContactJPADAO contactJPADAO;
+    IDAO contactJPADAO;
 
     @Inject
     @Named("user-jpadao")
-    UserJPADAO userJPADAO;
+    IDAO userJPADAO;
 
     @Inject
     @Named("seenmovie-jpadao")
-    SeenMovieJPADAO seenMovieJPADAO;
+    IDAO seenMovieJPADAO;
 
     @AfterEach
     public void cleanup() throws SQLException {
         dataSource.getConnection().prepareStatement("DELETE FROM SEEN_MOVIES").execute();
-        dataSource.getConnection().prepareStatement("DELETE FROM ADDRESSES").execute();
-        dataSource.getConnection().prepareStatement("DELETE FROM USER_ROLE").execute();
         dataSource.getConnection().prepareStatement("DELETE FROM USERS").execute();
         dataSource.getConnection().prepareStatement("DELETE FROM ROLES").execute();
         dataSource.getConnection().prepareStatement("DELETE FROM CONTACTS").execute();
         dataSource.getConnection().prepareStatement("DELETE FROM MOVIES").execute();
+        dataSource.getConnection().prepareStatement("DELETE FROM ADDRESSES").execute();
     }
 
     @Test
@@ -68,12 +66,21 @@ public class TestJPADAO {
         role.setName("admin");
 
         // Address
-        Address address = new Address();
-        address.setCity("Paris");
-        address.setCountry("France");
-        address.setStreet("Rue de la Paix");
-        address.setNumber("75000");
-        address.setArea("75");
+        Address address1 = new Address();
+        address1.setCity("Paris");
+        address1.setCountry("France");
+        address1.setStreet("Rue de la Paix");
+        address1.setNumber("75000");
+        address1.setArea("75");
+        address1.setPrimary(true);
+
+        Address address2 = new Address();
+        address2.setCity("Hyderabad");
+        address2.setCountry("India");
+        address2.setStreet("Esamia Bazar");
+        address2.setNumber("50027");
+        address2.setArea("27");
+        address2.setPrimary(false);
 
         // Movie
         Movie movie = new Movie();
@@ -87,13 +94,15 @@ public class TestJPADAO {
         contact.setEmail("rishab@rishab.com");
         contact.setGender("male");
         contact.setBirthDate(new Date(1998, 10, 10));
-        contact.setAddresses(Set.of(address));
+        contact.setPrimaryAddress(address1);
+        contact.setSecondaryAddress(address2);
 
         // User
         User user = new User();
         user.setUsername("rishabgaddi");
-        user.setRoles(Set.of(role));
+        user.setRole(role);
         user.setContact(contact);
+        contact.setUser(user);
 
         // SeenMovie
         SeenMovie seenMovie = new SeenMovie();
@@ -103,7 +112,8 @@ public class TestJPADAO {
 
         // When
         roleJPADAO.save(role);
-        addressJPADAO.save(address);
+        addressJPADAO.save(address1);
+        addressJPADAO.save(address2);
         movieJPADAO.save(movie);
         contactJPADAO.save(contact);
         userJPADAO.save(user);

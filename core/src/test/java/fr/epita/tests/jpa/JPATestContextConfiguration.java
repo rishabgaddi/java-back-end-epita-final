@@ -42,6 +42,7 @@ public class JPATestContextConfiguration {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.put("hibernate.hbm2ddl.auto", "create");
+
 //        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 //        properties.put("hibernate.hbm2ddl.auto", "update");
         sessionFactoryBean.setHibernateProperties(properties);
@@ -50,7 +51,7 @@ public class JPATestContextConfiguration {
     }
 
     @Bean(name = "transaction-manager")
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+    public HibernateTransactionManager transactionManager(@Qualifier("session-factory") SessionFactory sessionFactory) {
         HibernateTransactionManager txManager = new HibernateTransactionManager();
         txManager.setSessionFactory(sessionFactory);
         return txManager;

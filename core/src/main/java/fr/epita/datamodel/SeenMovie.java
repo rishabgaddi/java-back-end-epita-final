@@ -25,7 +25,8 @@ public class SeenMovie {
         this.movie = movie;
     }
 
-    public SeenMovie() {}
+    public SeenMovie() {
+    }
 
     public Long getId() {
         return id;

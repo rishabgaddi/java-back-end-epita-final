@@ -3,10 +3,12 @@ package fr.epita.services;
 import fr.epita.datamodel.Contact;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class ContactJPADAO implements IDAO<Contact> {
     private final SessionFactory sessionFactory;
 
@@ -14,41 +16,35 @@ public class ContactJPADAO implements IDAO<Contact> {
         this.sessionFactory = sessionFactory;
     }
 
+    @Transactional
     public void save(Contact contact) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.save(contact);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public void update(Contact contact) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.update(contact);
-        transaction.commit();
-        session.close();
     }
 
+    @Transactional
     public Contact findById(Long id) {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         Contact contact = session.find(Contact.class, id);
-        session.close();
         return contact;
     }
 
+    @Transactional
     public List<Contact> findAll() {
-        Session session = this.sessionFactory.openSession();
+        Session session = this.sessionFactory.getCurrentSession();
         List<Contact> contactList = session.createQuery("from Contact", Contact.class).getResultList();
-        session.close();
         return contactList;
     }
 
+    @Transactional
     public void delete(Contact contact) {
-        Session session = this.sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        Session session = this.sessionFactory.getCurrentSession();
         session.delete(contact);
-        transaction.commit();
-        session.close();
     }
 }

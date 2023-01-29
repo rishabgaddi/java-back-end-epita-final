@@ -10,7 +10,7 @@
         </Root>
 
         <Logger level="INFO" name="org.springframework">
-            <AppenderRef ref="Out" />
+            <AppenderRef ref="Out"/>
         </Logger>
     </Loggers>
 </Configuration>
