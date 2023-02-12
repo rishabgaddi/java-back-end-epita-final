@@ -11,7 +11,9 @@ public class Contact {
     @Column
     private Long id;
     @Column
-    private String name;
+    private String firstName;
+    @Column
+    private String lastName;
     @Column(unique = true)
     private String email;
     @Column
@@ -27,9 +29,10 @@ public class Contact {
     @JoinColumn(name = "secondary_address_id")
     private Address secondaryAddress;
 
-    public Contact(Long id, String name, String email, String gender, Date birthDate, User user, Address primaryAddress, Address secondaryAddress) {
+    public Contact(Long id, String firstName, String lastName, String email, String gender, Date birthDate, User user, Address primaryAddress, Address secondaryAddress) {
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.gender = gender;
         this.birthDate = birthDate;
@@ -49,12 +52,20 @@ public class Contact {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -109,7 +120,8 @@ public class Contact {
     public String toString() {
         return "Contact{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
                 ", birthDate=" + birthDate +

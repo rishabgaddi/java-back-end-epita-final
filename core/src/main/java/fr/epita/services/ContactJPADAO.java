@@ -36,6 +36,15 @@ public class ContactJPADAO implements IDAO<Contact> {
     }
 
     @Transactional
+    public Contact findByEmail(String email) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Contact contact = session.createQuery("from Contact c where c.email = :email", Contact.class)
+                .setParameter("email", email)
+                .getSingleResult();
+        return contact;
+    }
+
+    @Transactional
     public List<Contact> findAll() {
         Session session = this.sessionFactory.getCurrentSession();
         List<Contact> contactList = session.createQuery("from Contact", Contact.class).getResultList();

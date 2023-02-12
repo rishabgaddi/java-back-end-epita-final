@@ -90,7 +90,8 @@ public class TestJPADAO {
 
         // Contact
         Contact contact = new Contact();
-        contact.setName("Rishab Gaddi");
+        contact.setFirstName("Rishab");
+        contact.setLastName("Gaddi");
         contact.setEmail("rishab@rishab.com");
         contact.setGender("male");
         contact.setBirthDate(new Date(1998, 10, 10));
