@@ -15,9 +15,9 @@ public class UserController {
     UserDataService userDataService;
 
     @GetMapping(path = "/info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> get(@RequestParam("email") String email) {
+    public ResponseEntity<UserDTO> get(@RequestParam("username") String username) {
         try {
-            UserDTO userDTO = userDataService.getUserDetails(email);
+            UserDTO userDTO = userDataService.getUserDetails(username);
             return ResponseEntity.ok(userDTO);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();

@@ -24,23 +24,18 @@ public class UserDataService {
         this.sessionFactory = sessionFactory;
     }
 
-    public UserDTO getUserDetails(String email) {
-        try {
-            Contact contact = contactJPADAO.findByEmail(email);
-            User user = contact.getUser();
-            Role role = user.getRole();
+    public UserDTO getUserDetails(String username) {
+        User user = userJPADAO.find(username);
+        Contact contact = contactJPADAO.findById(user.getContact().getId());
+        Role role = roleJPADAO.findById(user.getRole().getId());
 
-            UserDTO userDTO = new UserDTO();
-            userDTO.setFirstName(contact.getFirstName());
-            userDTO.setLastName(contact.getLastName());
-            userDTO.setEmail(contact.getEmail());
-            userDTO.setUsername(user.getUsername());
-            userDTO.setType(role.getName());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(contact.getEmail());
+        userDTO.setFirstName(contact.getFirstName());
+        userDTO.setLastName(contact.getLastName());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setType(role.getName());
 
-            return userDTO;
-        } catch (Exception e) {
-            LOGGER.error("Error while getting user details", e);
-            return null;
-        }
+        return userDTO;
     }
 }

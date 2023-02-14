@@ -36,6 +36,15 @@ public class UserJPADAO implements IDAO<User> {
     }
 
     @Transactional
+    public User find(String username) {
+        Session session = this.sessionFactory.getCurrentSession();
+        User user = session.createQuery("from User where username = :username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
+        return user;
+    }
+
+    @Transactional
     public List<User> findAll() {
         Session session = this.sessionFactory.getCurrentSession();
         List<User> userList = session.createQuery("from User", User.class).getResultList();
