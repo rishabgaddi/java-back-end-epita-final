@@ -25,7 +25,7 @@ public class SeenMovieController {
             seenMovieDataService.addSeenMovie(seenMovieDTO);
             return ResponseEntity.created(null).build();
         } catch (Exception e) {
-            LOGGER.error("Error while performing POST /seenMovies operation", e);
+            LOGGER.error("Error while performing POST /seenmovies operation", e);
             return ResponseEntity.internalServerError().body("Error while performing operation:\n" + e.getMessage());
         }
     }
@@ -36,7 +36,18 @@ public class SeenMovieController {
             List<String> movieIds = seenMovieDataService.getSeenMovieIds(username);
             return ResponseEntity.ok(movieIds);
         } catch (Exception e) {
-            LOGGER.error("Error while performing GET /seenMovies?username={} operation", username, e);
+            LOGGER.error("Error while performing GET /seenmovies?username={} operation", username, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping(path = "/top", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<String>> getTop() {
+        try {
+            List<String> movieIds = seenMovieDataService.getMostSeenMovieIds();
+            return ResponseEntity.ok(movieIds);
+        } catch (Exception e) {
+            LOGGER.error("Error while performing GET /seenmovies/top operation", e);
             return ResponseEntity.internalServerError().build();
         }
     }

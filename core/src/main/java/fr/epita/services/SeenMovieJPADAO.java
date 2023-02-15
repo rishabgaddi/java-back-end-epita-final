@@ -1,5 +1,6 @@
 package fr.epita.services;
 
+import fr.epita.datamodel.Movie;
 import fr.epita.datamodel.SeenMovie;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -49,6 +50,19 @@ public class SeenMovieJPADAO implements IDAO<SeenMovie> {
                 .setParameter("user_id", userId)
                 .getResultList();
         return seenMovieList;
+    }
+
+    @Transactional
+    public List<String> findMostSeenMovies() {
+        Session session = this.sessionFactory.getCurrentSession();
+        String query = "SELECT m.externalid " +
+                "FROM seen_movies sm " +
+                "JOIN movies m ON sm.movie_id = m.id " +
+                "GROUP BY m.externalid " +
+                "ORDER BY COUNT(*) DESC " +
+                "LIMIT 10";
+        List<String> movieList = session.createNativeQuery(query).getResultList();
+        return movieList;
     }
 
     @Transactional

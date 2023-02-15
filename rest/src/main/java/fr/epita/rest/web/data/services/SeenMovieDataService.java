@@ -48,4 +48,10 @@ public class SeenMovieDataService {
 
         return movieIdList;
     }
+
+    public List<String> getMostSeenMovieIds() {
+        List<String> movieIdList = seenMovieJPADAO.findMostSeenMovies();
+        return movieIdList;
+    }
 }
+
