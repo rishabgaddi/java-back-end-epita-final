@@ -36,6 +36,15 @@ public class MovieJPADAO implements IDAO<Movie> {
     }
 
     @Transactional
+    public Movie findByExternalId(String externalId) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Movie movie = session.createQuery("from Movie where externalId = :externalId", Movie.class)
+                .setParameter("externalId", externalId)
+                .getSingleResult();
+        return movie;
+    }
+
+    @Transactional
     public List<Movie> findAll() {
         Session session = this.sessionFactory.getCurrentSession();
         List<Movie> movieList = session.createQuery("from Movie", Movie.class).getResultList();

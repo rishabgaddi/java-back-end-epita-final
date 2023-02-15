@@ -43,6 +43,15 @@ public class SeenMovieJPADAO implements IDAO<SeenMovie> {
     }
 
     @Transactional
+    public List<SeenMovie> findByUser(Long userId) {
+        Session session = this.sessionFactory.getCurrentSession();
+        List<SeenMovie> seenMovieList = session.createQuery("from SeenMovie where user_id = :user_id", SeenMovie.class)
+                .setParameter("user_id", userId)
+                .getResultList();
+        return seenMovieList;
+    }
+
+    @Transactional
     public void delete(SeenMovie seenMovie) {
         Session session = this.sessionFactory.getCurrentSession();
         session.delete(seenMovie);

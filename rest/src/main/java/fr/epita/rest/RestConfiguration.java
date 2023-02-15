@@ -1,6 +1,7 @@
 package fr.epita.rest;
 
 import fr.epita.rest.web.data.services.MovieDataService;
+import fr.epita.rest.web.data.services.SeenMovieDataService;
 import fr.epita.rest.web.data.services.UserDataService;
 import fr.epita.services.*;
 import org.hibernate.SessionFactory;
@@ -73,12 +74,17 @@ public class RestConfiguration {
     }
 
     @Bean(name = "user-data-service")
-    public UserDataService getUserDataService(ContactJPADAO contactJPADAO, UserJPADAO userJPADAO, RoleJPADAO roleJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
-        return new UserDataService(contactJPADAO, userJPADAO, roleJPADAO, sessionFactory);
+    public UserDataService getUserDataService(UserJPADAO userJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
+        return new UserDataService(userJPADAO, sessionFactory);
     }
 
     @Bean(name = "movie-data-service")
     public MovieDataService getMovieDataService(MovieJPADAO movieJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
         return new MovieDataService(movieJPADAO, sessionFactory);
+    }
+
+    @Bean(name = "seenmovie-data-service")
+    public SeenMovieDataService getSeenMovieDataService(SeenMovieJPADAO seenMovieJPADAO, UserJPADAO userJPADAO, MovieJPADAO movieJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
+        return new SeenMovieDataService(seenMovieJPADAO, userJPADAO, movieJPADAO, sessionFactory);
     }
 }
