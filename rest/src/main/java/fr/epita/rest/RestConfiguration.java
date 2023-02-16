@@ -1,8 +1,6 @@
 package fr.epita.rest;
 
-import fr.epita.rest.web.data.services.MovieDataService;
-import fr.epita.rest.web.data.services.SeenMovieDataService;
-import fr.epita.rest.web.data.services.UserDataService;
+import fr.epita.rest.web.data.services.*;
 import fr.epita.services.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -86,5 +84,15 @@ public class RestConfiguration {
     @Bean(name = "seenmovie-data-service")
     public SeenMovieDataService getSeenMovieDataService(SeenMovieJPADAO seenMovieJPADAO, UserJPADAO userJPADAO, MovieJPADAO movieJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
         return new SeenMovieDataService(seenMovieJPADAO, userJPADAO, movieJPADAO, sessionFactory);
+    }
+
+    @Bean(name = "role-data-service")
+    public RoleDataService getRoleDataService(RoleJPADAO roleJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
+        return new RoleDataService(roleJPADAO, sessionFactory);
+    }
+
+    @Bean(name = "account-data-service")
+    public AccountDataService getAccountDataService(RoleJPADAO roleJPADAO, AddressJPADAO addressJPADAO, ContactJPADAO contactJPADAO, UserJPADAO userJPADAO, @Qualifier("session-factory") SessionFactory sessionFactory) {
+        return new AccountDataService(roleJPADAO, addressJPADAO, contactJPADAO, userJPADAO, sessionFactory);
     }
 }
